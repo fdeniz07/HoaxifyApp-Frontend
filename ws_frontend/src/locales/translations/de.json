@@ -1,0 +1,8 @@
+{
+  "signUp": "Anmelden",
+  "username": "Benutzername",
+  "email": "Email",
+  "password": "Passwort",
+  "passwordRepeat": "Passwort wiederholen",
+  "genericError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal."
+}

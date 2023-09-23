@@ -11,6 +11,8 @@ import {
 } from "react-bootstrap";
 import signUp from "./api";
 import { Input } from "./components/Input";
+import { useTranslation } from "react-i18next";
+import { LanguageSelector } from "../../shared/components/LanguageSelector";
 
 function SignUp() {
   //Degiskenler
@@ -22,6 +24,7 @@ function SignUp() {
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
+  const { t } = useTranslation();
 
   //Verilerin kontrolü ici, eger bossa hata mesajı verir
   useEffect(() => {
@@ -68,12 +71,17 @@ function SignUp() {
     } catch (axiosError) {
       // console.log(axiosError);
       if (
-        axiosError.response?.data && // eger responsun icinde data varsa
-        axiosError.response.data.status === 400 // ve 400 hatasi aliniyorsa
+        axiosError.response?.data // Eger backenden gelen responsun icinde data varsa
       ) {
-        setErrors(axiosError.response.data.validationErrors);
+        //400 hata mesaji iceriyorsa validasyon hatasini göster
+        if (axiosError.response.data.status === 400) {
+          setErrors(axiosError.response.data.validationErrors);
+        } else {
+          // 400 hatasi yoksa hata mesaji göster
+          setGeneralError(axiosError.response.data.message); //Backend den gelen hata mesaji
+        }
       } else {
-        setGeneralError("Unexpeced error occured. Please try again later.");
+        setGeneralError(t("genericError"));
       }
     } finally {
       setApiProgress(false);
@@ -84,7 +92,7 @@ function SignUp() {
     //useMemo hook'u sabit degerlerin render edilmesini engellemek icin kullanilir
     if (password && password !== passwordRepeat) {
       console.log("always running");
-      return "Passwords don't match";
+      return t("passwordMissmatch");
     }
     return "";
   }, [password, passwordRepeat]); // sadece password ve passwordRepeat degiskenlerinde degisiklik oldugunda calisir
@@ -94,19 +102,19 @@ function SignUp() {
       <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2">
         <form className="card" onSubmit={onSubmit}>
           <div className="text-center card-header">
-            <h1>Sign Up</h1>
+            <h1>{t("signUp")}</h1>
           </div>
           <div className="card-body">
             <Input
               id="username"
-              label="Username"
+              label={t("username")}
               error={errors.username}
               onChange={(event) => setUsername(event.target.value)}
             />
 
             <Input
               id="email"
-              label="E-mail"
+              label={t("email")}
               error={errors.email}
               onChange={(event) => setEmail(event.target.value)}
               type="email"
@@ -114,7 +122,7 @@ function SignUp() {
 
             <Input
               id="password"
-              label="Password"
+              label={t("password")}
               error={errors.password}
               onChange={(event) => setPassword(event.target.value)}
               type="password"
@@ -135,7 +143,7 @@ function SignUp() {
 
             <Input
               id="passwordRepeat"
-              label="Password Repeat"
+              label={t("passwordRepeat")}
               error={passwordRepeatError}
               onChange={(event) => setPasswordRepeat(event.target.value)}
               type="password"
@@ -174,11 +182,12 @@ function SignUp() {
                     aria-hidden="true"
                   ></span>
                 )}
-                Sign Up
+                {t("signUp")}
               </button>
             </div>
           </div>
         </form>
+        <LanguageSelector />
       </div>
     </div>
   );
