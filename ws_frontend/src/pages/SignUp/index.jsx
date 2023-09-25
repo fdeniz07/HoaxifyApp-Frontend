@@ -1,18 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  Spinner,
-} from "react-bootstrap";
 import signUp from "./api";
-import { Input } from "./components/Input";
+import { Input } from "../Home/components/Input";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "../../shared/components/LanguageSelector";
+import { Alert } from "../../shared/components/Alert";
+import { Spinner } from "../../shared/components/Spinner";
+
 
 function SignUp() {
   //Degiskenler
@@ -20,7 +12,7 @@ function SignUp() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [passwordRepeat, setPasswordRepeat] = useState();
-  const [apiProgress, setApiProgress] = useState(false);
+  const [apiProgress, setApiProgress] = useState();
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
@@ -163,10 +155,10 @@ function SignUp() {
             </div> */}
 
             {successMessage && (
-              <div className="alert alert-success">{successMessage}</div>
+              <Alert>{successMessage}</Alert>
             )}
             {generalError && (
-              <div className="alert alert-danger">{generalError}</div>
+              <Alert Alert styleType="danger">{generalError}</Alert>
             )}
 
             <div className="text-center">
@@ -177,17 +169,13 @@ function SignUp() {
                 }
               >
                 {apiProgress && (
-                  <span
-                    className="spinner-border spinner-border-sm"
-                    aria-hidden="true"
-                  ></span>
+                <Spinner sm/>
                 )}
                 {t("signUp")}
               </button>
             </div>
           </div>
         </form>
-        <LanguageSelector />
       </div>
     </div>
   );

@@ -2,15 +2,19 @@ import { BrowserRouter, Routes, Route, createBrowserRouter, RouterProvider, crea
 import { Home } from "../pages/Home";
 import SignUp from "../pages/SignUp";
 import App from "../App";
+import { Activation } from "../pages/Activation";
+import UserLayout from "../layouts/user-layout";
+
 
 // 3.Yol Browser Router ve RouterProvider Yöntemi
 export default createBrowserRouter([
     {
         path: "/",
-        Component: App,
+         Component: App,
+        // element:<UserLayout/>,
         children: [
             {
-                path: "*",  // "/" anasayfayi belirtir
+                path: "/",  // "/" anasayfayi belirtir
                 //path: "*", // "*" asagidaki gibi olmayan sayfa yönlendirmesi yerine tüm sayfalari ana sayfaya da yönlendirmek isteyebiliriz.
                 index: true,
                 Component: Home,
@@ -20,6 +24,10 @@ export default createBrowserRouter([
                 path: "/signup",
                 Component: SignUp
             },
+            {
+                path: "/activation/:token",
+                Component: Activation
+            }
         ]
     }
 ])
