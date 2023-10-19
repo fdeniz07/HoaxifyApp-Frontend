@@ -4,13 +4,15 @@ import {
   ButtonGroup,
   ButtonToolbar,
   Container,
+  Image,
   Nav,
   NavDropdown,
   Navbar,
+  Form
 } from "react-bootstrap";
-import { Form, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import logo from "../../assets/hoaxify.png";
+import logo from "@/assets/hoaxify.png";
 
 export function NavBar() {
   const { t } = useTranslation();
@@ -18,13 +20,13 @@ export function NavBar() {
   return (
     <Navbar bg="dark" data-bs-theme="dark" expand="lg" className="shadow mb-2">
       <Container fluid className="justify-content-start d-flex">
-        <Navbar.Brand href="#">
+        <Navbar.Brand>
           <Link className="nav-link" to="/">
-            <img src={logo} alt="hoaxify" width={80} />
+            <Image src={logo} alt="hoaxify" width={80} />
             Hoaxify
           </Link>
         </Navbar.Brand>
-        {/* <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
@@ -47,26 +49,34 @@ export function NavBar() {
               Link
             </Nav.Link>
           </Nav>
-        </Navbar.Collapse> */}
+        </Navbar.Collapse>
       </Container>
       <Container fluid className="justify-content-end d-flex">
-        {/* <Form inline className="d-flex">
+        <Form inline className="d-flex">
           <Form.Control
             type="search"
             placeholder={t("search")}
             className="me-1"
             aria-label="Search"
           />
-        </Form> */}
+        </Form>
 
         <ButtonToolbar>
           <ButtonGroup className="d-flex">
-            {/* <Button variant="outline-success" className="text-center">
+            <Button variant="outline-success" className="text-center">
               {t("search")}
-            </Button> */}
+            </Button>
+            <Button
+              variant="outline-warning"
+              className="text-center mx-2 d-inline-block text-truncate"
+            >
+              <Link className="nav-link" to="/login">
+                {t("login")}
+              </Link>
+            </Button>
             <Button
               variant="outline-primary"
-              className="text-center mx-2 d-inline-block text-truncate"
+              className="text-center d-inline-block text-truncate"
             >
               <Link className="nav-link" to="/signup">
                 {t("signUp")}

@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import signUp from "./api";
-import { Input } from "../Home/components/Input";
+import { Input } from "@/shared/components/Input";
 import { useTranslation } from "react-i18next";
-import { Alert } from "../../shared/components/Alert";
-import { Spinner } from "../../shared/components/Spinner";
-
+import { Alert } from "@/shared/components/Alert";
+import { Spinner } from "@/shared/components/Spinner";
+import { Button } from "@/shared/components/Button";
+import signUp from "./api";
 
 function SignUp() {
   //Degiskenler
@@ -21,7 +21,6 @@ function SignUp() {
   //Verilerin kontrolü ici, eger bossa hata mesajı verir
   useEffect(() => {
     setErrors(function (lastErrors) {
-      // lastErrors.username = undefined;
       return {
         ...lastErrors,
         username: undefined,
@@ -62,9 +61,8 @@ function SignUp() {
       setSuccessMessage(response.data.message);
     } catch (axiosError) {
       // console.log(axiosError);
-      if (
-        axiosError.response?.data // Eger backenden gelen responsun icinde data varsa
-      ) {
+      if (axiosError.response?.data) {
+        // Eger backenden gelen responsun icinde data varsa
         //400 hata mesaji iceriyorsa validasyon hatasini göster
         if (axiosError.response.data.status === 400) {
           setErrors(axiosError.response.data.validationErrors);
@@ -83,14 +81,14 @@ function SignUp() {
   const passwordRepeatError = useMemo(() => {
     //useMemo hook'u sabit degerlerin render edilmesini engellemek icin kullanilir
     if (password && password !== passwordRepeat) {
-      console.log("always running");
+      //console.log("always running");
       return t("passwordMissmatch");
     }
     return "";
   }, [password, passwordRepeat]); // sadece password ve passwordRepeat degiskenlerinde degisiklik oldugunda calisir
 
   return (
-    <div className="container mt-3">
+    <div className="container">
       <div className="col-lg-6 offset-lg-3 col-sm-8 offset-sm-2">
         <form className="card" onSubmit={onSubmit}>
           <div className="text-center card-header">
@@ -109,7 +107,6 @@ function SignUp() {
               label={t("email")}
               error={errors.email}
               onChange={(event) => setEmail(event.target.value)}
-              type="email"
             />
 
             <Input
@@ -120,19 +117,6 @@ function SignUp() {
               type="password"
             />
 
-            {/* <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                id="password"
-                label="Password"
-                className="form-control"
-                type="password"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div> */}
-
             <Input
               id="passwordRepeat"
               label={t("passwordRepeat")}
@@ -141,38 +125,16 @@ function SignUp() {
               type="password"
             />
 
-            {/* <div className="mb-3">
-              <label htmlFor="passwordRepeat" className="form-label">
-                Password Repeat
-              </label>
-              <input
-                id="passwordRepeat"
-                label="Password Repeat"
-                className="form-control"
-                type="password"
-                onChange={(event) => setPasswordRepeat(event.target.value)}
-              />
-            </div> */}
-
-            {successMessage && (
-              <Alert>{successMessage}</Alert>
-            )}
-            {generalError && (
-              <Alert Alert styleType="danger">{generalError}</Alert>
-            )}
+            {successMessage && <Alert>{successMessage}</Alert>}
+            {generalError && <Alert styleType="danger">{generalError}</Alert>}
 
             <div className="text-center">
-              <button
-                className="btn btn-primary w-100"
-                disabled={
-                  apiProgress || !password || password !== passwordRepeat
-                }
+              <Button
+                disabled={!password || password !== passwordRepeat}
+                apiProgress={apiProgress}
               >
-                {apiProgress && (
-                <Spinner sm/>
-                )}
                 {t("signUp")}
-              </button>
+              </Button>
             </div>
           </div>
         </form>
@@ -182,76 +144,3 @@ function SignUp() {
 }
 
 export default SignUp;
-
-{
-  /* <Container className="mt-5 col-lg-6 offset-lg-3 col-md-8 offset-sm-2 col-sm-10 offset-sm-1">
-<Card style={{ width: "30rem" }}>
-  <Card.Body className="card-header">
-    <Card.Title className="text-center">
-      <h1>SignUp</h1>
-    </Card.Title>
-  </Card.Body>
-
-  <Form className="mx-5 mt-5 fs-4">
-    <Form.Group as={Row} className="mb-3">
-      <Form.Label htmlFor="username">Username</Form.Label>
-      <Form.Control
-        id="username"
-        type="text"
-        placeholder="Enter Username"
-        onChange={(event) => setUsername(event.target.value)}
-      />
-    </Form.Group>
-
-    <Form.Group as={Row} className="mb-3">
-      <Form.Label htmlFor="email">E-mail</Form.Label>
-      <Form.Control
-        id="email"
-        type="email"
-        placeholder="Enter Email"
-        onChange={(event) => setEmail(event.target.value)}
-      />
-    </Form.Group>
-
-    <Form.Group as={Row} className="mb-3">
-      <Form.Label htmlFor="password">Password</Form.Label>
-      <Form.Control
-        id="password"
-        type="password"
-        placeholder="Password"
-        onChange={(event) => setPassword(event.target.value)}
-      />
-    </Form.Group>
-
-    <Form.Group as={Row} className="mb-3">
-      <Form.Label htmlFor="passwordRepeat">Password Repeat</Form.Label>
-      <Form.Control
-        id="passwordRepeat"
-        type="password"
-        placeholder="Repeat Password"
-        onChange={(event) => setPasswordRepeat(event.target.value)}
-      />
-    </Form.Group>
-
-    <Form.Group as={Row} className="mb-3">
-      <Col className="text-center">
-        <Button
-          disabled={
-            apiProgress || !password || password !== passwordRepeat
-          }
-          variant="primary"
-          type="submit"
-        >
-          {apiProgress && (
-            <span className="visually-hidden"></span>
-          )}
-          Sign Up
-        </Button>{" "}
-      </Col>
-    </Form.Group>
-  </Form>
-</Card>
-
-
-</Container> */
-}

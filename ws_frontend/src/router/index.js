@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route, createBrowserRouter, RouterProvider, createHashRouter, HashRouter } from "react-router-dom";
-import { Home } from "../pages/Home";
-import SignUp from "../pages/SignUp";
-import App from "../App";
-import { Activation } from "../pages/Activation";
-import UserLayout from "../layouts/user-layout";
+import { Home } from "@/pages/Home";
+import SignUp from "@/pages/SignUp";
+import App from "@/App";
+import { Activation } from "@/pages/Activation";
+import UserLayout from "@/layouts/user-layout";
+import Login from "@/pages/Login";
 
 
 // 3.Yol Browser Router ve RouterProvider Yöntemi
@@ -27,6 +28,10 @@ export default createBrowserRouter([
             {
                 path: "/activation/:token",
                 Component: Activation
+            },
+            {
+                path:"/login",
+                Component: Login
             }
         ]
     }

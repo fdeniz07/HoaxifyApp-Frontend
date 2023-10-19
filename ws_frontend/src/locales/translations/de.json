@@ -5,5 +5,7 @@
   "email": "Email",
   "password": "Passwort",
   "passwordRepeat": "Passwort wiederholen",
-  "genericError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal."
+  "passwordMissmatch": "Password stimmt nicht überein",
+  "genericError": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal.",
+  "login": "Login"
 }
